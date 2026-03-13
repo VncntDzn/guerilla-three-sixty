@@ -40,22 +40,24 @@ export const UsersTable = ({
           </TableRow>
         ))}
       </TableBody>
-      <TableFooter>
-        <Button
-          disabled={isFetching}
-          onClick={onPreviousPage}
-          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
-        >
-          Previous
-        </Button>
-        <Button
-          disabled={isFetching}
-          onClick={onNextPage}
-          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
-        >
-          Next
-        </Button>
-      </TableFooter>
+      {users.length >= 10 && (
+        <TableFooter>
+          <Button
+            disabled={isFetching || users.length >= 11}
+            onClick={onPreviousPage}
+            className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+          >
+            Previous
+          </Button>
+          <Button
+            disabled={isFetching || users.length >= 11}
+            onClick={onNextPage}
+            className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+          >
+            Next
+          </Button>
+        </TableFooter>
+      )}
     </Table>
   );
 };
