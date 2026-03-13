@@ -1,16 +1,40 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
-import { useGetUsers } from "./services/use-users.service";
+import { Suspense, useState } from "react";
+import { SearchUser } from "./components/search-user";
 import { UsersTable } from "./components/users-table";
+import { useGetUsers } from "./services/users.service";
 
 export const Users = () => {
-  const { usersData } = useGetUsers();
+  const PAGE_SIZE = 10;
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const { usersData, isFetching } = useGetUsers({
+    page,
+    limit: PAGE_SIZE,
+    term: search,
+  });
 
-  if (!usersData?.users) return "no users yet";
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prev) => prev - 1);
+  };
+
+  if (!usersData) return "no users yet";
 
   return (
     <Suspense fallback={<Skeleton />}>
-      <UsersTable users={usersData.users} />
+      <div className="w-full">
+        <SearchUser onSearch={setSearch} />
+        <UsersTable
+          onNextPage={handleNextPage}
+          onPreviousPage={handlePrevPage}
+          users={usersData.users}
+          isFetching={isFetching}
+        />
+      </div>
     </Suspense>
   );
 };

@@ -1,7 +1,9 @@
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -10,8 +12,16 @@ import { IUser } from "@/core/domain/users.types";
 
 interface Props {
   users: IUser[];
+  onNextPage: () => void;
+  onPreviousPage: () => void;
+  isFetching: boolean;
 }
-export const UsersTable = ({ users }: Props) => {
+export const UsersTable = ({
+  users,
+  onNextPage,
+  onPreviousPage,
+  isFetching,
+}: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -30,6 +40,22 @@ export const UsersTable = ({ users }: Props) => {
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+        <Button
+          disabled={isFetching}
+          onClick={onPreviousPage}
+          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+        >
+          Previous
+        </Button>
+        <Button
+          disabled={isFetching}
+          onClick={onNextPage}
+          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+        >
+          Next
+        </Button>
+      </TableFooter>
     </Table>
   );
 };
