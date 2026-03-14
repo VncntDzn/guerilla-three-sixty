@@ -15,12 +15,14 @@ interface Props {
   onNextPage: () => void;
   onPreviousPage: () => void;
   isFetching: boolean;
+  onSelectUser: (user: IUser) => void;
 }
 export const UsersTable = ({
   users,
   onNextPage,
   onPreviousPage,
   isFetching,
+  onSelectUser,
 }: Props) => {
   return (
     <Table>
@@ -33,7 +35,7 @@ export const UsersTable = ({
       </TableHeader>
       <TableBody>
         {users.map((user) => (
-          <TableRow key={user.id}>
+          <TableRow key={user.id} onClick={() => onSelectUser(user)}>
             <TableCell>{user.firstName}</TableCell>
             <TableCell>{user.lastName}</TableCell>
             <TableCell>{user.role}</TableCell>
@@ -41,20 +43,26 @@ export const UsersTable = ({
         ))}
       </TableBody>
       <TableFooter>
-        <Button
-          disabled={isFetching || users.length >= 11}
-          onClick={onPreviousPage}
-          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
-        >
-          Previous
-        </Button>
-        <Button
-          disabled={isFetching || users.length >= 11}
-          onClick={onNextPage}
-          className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
-        >
-          Next
-        </Button>
+        <TableRow>
+          <TableCell colSpan={3}>
+            <div className="flex items-center justify-end gap-2">
+              <Button
+                disabled={isFetching}
+                onClick={onPreviousPage}
+                className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+              >
+                Previous
+              </Button>
+              <Button
+                disabled={isFetching}
+                onClick={onNextPage}
+                className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
+              >
+                Next
+              </Button>
+            </div>
+          </TableCell>
+        </TableRow>
       </TableFooter>
     </Table>
   );
