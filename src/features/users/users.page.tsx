@@ -1,6 +1,6 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { SkeletonLoader } from "@/components/common/skeleton-loader";
 import { IUser } from "@/core/domain/users.types";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 import { FilterUsers, GENDER } from "./components/filter-users";
 import { SearchUser } from "./components/search-user";
@@ -49,32 +49,30 @@ export const Users = () => {
     setPage(1);
   }, [search]);
 
-  if (!usersData) return "no users yet";
+  if (!usersData) return <SkeletonLoader />;
 
   return (
-    <Suspense fallback={<Skeleton />}>
-      <div className="w-full">
-        <div className="flex justify-between items-center gap-2">
-          <SearchUser onSearch={setSearch} search={search} />
+    <div className="w-full">
+      <div className="flex justify-between items-center gap-2">
+        <SearchUser onSearch={setSearch} search={search} />
 
-          <FilterUsers
-            filterValue={filteredValue}
-            onFilterChange={setFilterValue}
-          />
-        </div>
-        <UsersTable
-          onNextPage={handleNextPage}
-          onPreviousPage={handlePrevPage}
-          users={filteredUsers}
-          isFetching={isFetching}
-          onSelectUser={handleSelectUser}
-        />
-        <UserDialog
-          isOpen={isDetailsOpen}
-          setDetailsOpen={(val) => setDetailsOpen(val)}
-          user={selectedUser}
+        <FilterUsers
+          filterValue={filteredValue}
+          onFilterChange={setFilterValue}
         />
       </div>
-    </Suspense>
+      <UsersTable
+        onNextPage={handleNextPage}
+        onPreviousPage={handlePrevPage}
+        users={filteredUsers}
+        isFetching={isFetching}
+        onSelectUser={handleSelectUser}
+      />
+      <UserDialog
+        isOpen={isDetailsOpen}
+        setDetailsOpen={(val) => setDetailsOpen(val)}
+        user={selectedUser}
+      />
+    </div>
   );
 };
