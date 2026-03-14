@@ -42,14 +42,14 @@ export const UsersTable = ({
       </TableBody>
       <TableFooter>
         <Button
-          disabled={isFetching}
+          disabled={isFetching || users.length >= 11}
           onClick={onPreviousPage}
           className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
         >
           Previous
         </Button>
         <Button
-          disabled={isFetching}
+          disabled={isFetching || users.length >= 11}
           onClick={onNextPage}
           className="disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:border-border"
         >
