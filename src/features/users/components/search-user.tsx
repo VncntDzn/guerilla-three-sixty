@@ -13,17 +13,20 @@ export const SearchUser = ({ search, onSearch }: Props) => {
   return (
     <div className="relative flex-1">
       <Input
+        aria-label="Search here"
         value={search}
         placeholder="Search here..."
         onChange={(e) => onSearch(e.target.value)}
       />
       {search && (
         <Button
+          aria-label="Clear search"
+          type="button"
           className="absolute right-1 top-1 text-gray-500"
           variant="ghost"
           onClick={handleClear}
         >
-          <X size={20} />
+          <X aria-hidden="true" size={20} />
         </Button>
       )}
     </div>
