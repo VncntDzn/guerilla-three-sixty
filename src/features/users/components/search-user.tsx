@@ -11,7 +11,7 @@ export const SearchUser = ({ search, onSearch }: Props) => {
     onSearch("");
   };
   return (
-    <div className="relative">
+    <div className="relative flex-1">
       <Input
         value={search}
         placeholder="Search here..."
